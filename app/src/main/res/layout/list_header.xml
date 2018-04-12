@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingTop="10dp"
+        android:background="#82a6f5">
+        <RadioButton
+            android:id="@+id/rb_1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:button="@null"
+            android:gravity="center"
+            android:drawableTop="@drawable/erweima"
+            android:text="生成二维码"
+            android:layout_weight="1"
+            android:textColor="#e2e2e2"/>
+        <RadioButton
+            android:id="@+id/rb_2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:button="@null"
+            android:gravity="center"
+            android:drawableTop="@drawable/sao"
+            android:text="扫一扫"
+            android:layout_weight="1"
+            android:textColor="#e2e2e2"/>
+        <RadioButton
+            android:id="@+id/rb_3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:button="@null"
+            android:gravity="center"
+            android:drawableTop="@drawable/erweima"
+            android:text="生成二维码"
+            android:layout_weight="1"
+            android:textColor="#e2e2e2"/>
+        <RadioButton
+            android:id="@+id/rb_4"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:button="@null"
+            android:gravity="center"
+            android:drawableTop="@drawable/erweima"
+            android:text="生成二维码"
+            android:layout_weight="1"
+            android:textColor="#e2e2e2"/>
+    </RadioGroup>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:text=""/>
+
+
+
+</LinearLayout>
