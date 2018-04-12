@@ -40,6 +40,8 @@ dependencies {
     compile group: 'com.google.zxing', name: 'core', version: '3.3.0' //二维码
     compile 'org.greenrobot:greendao:3.2.0'//greendao 数据库
     compile 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.4@aar' //RxPermissions 处理android6.0以上权限问题
-    compile 'io.reactivex.rxjava2:rxjava:2.0.1'
+
+    compile 'io.reactivex.rxjava2:rxjava:2.0.1'  //异步操作
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'  //异步操作
 
 }

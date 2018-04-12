@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 import com.example.administrator.movefast.R;
+import com.example.administrator.movefast.entity.WayBill;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,9 +18,9 @@ import java.util.List;
 public class MainAdapter extends BaseAdapter {
 
     private Context context;
-    private List<String> datas = new ArrayList<>();
+    private List<WayBill> datas = new ArrayList<>();
 
-    public MainAdapter(Context context, List<String> list) {
+    public MainAdapter(Context context, List<WayBill> list) {
         this.context = context;
         datas = list;
     }
@@ -47,17 +48,23 @@ public class MainAdapter extends BaseAdapter {
             convertView = View.inflate(context, R.layout.item_main, null);
             holder = new ViewHolder();
             holder.tvAddress = convertView.findViewById(R.id.tv_address);
+            holder.tvName = convertView.findViewById(R.id.tv_show_name);
+            holder.tvPhone = convertView.findViewById(R.id.tv_show_phone);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.tvAddress.setText(datas.get(position));
+        holder.tvAddress.setText(datas.get(position).getAddress());
+        holder.tvName.setText(datas.get(position).getName());
+        holder.tvPhone.setText(datas.get(position).getPhone());
         return convertView;
     }
 
 
     class ViewHolder {
         private TextView tvAddress;
+        private TextView tvName;
+        private TextView tvPhone;
     }
 }

@@ -2,7 +2,6 @@ package com.example.administrator.movefast.view;
 
 import android.Manifest;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +10,9 @@ import android.widget.RadioButton;
 
 import com.example.administrator.movefast.R;
 import com.example.administrator.movefast.adapter.MainAdapter;
+import com.example.administrator.movefast.db.DbManager;
+import com.example.administrator.movefast.entity.WayBill;
+import com.example.administrator.movefast.greendao.WayBillDao;
 import com.example.administrator.movefast.qrcode.activity.CaptureActivity;
 import com.example.administrator.movefast.utils.Helper;
 import com.example.administrator.movefast.utils.PermissionUtility;
@@ -18,7 +20,13 @@ import com.example.administrator.movefast.utils.PermissionUtility;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.functions.Action;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,40 +34,49 @@ public class MainActivity extends AppCompatActivity {
     private RadioButton rbSaoQr;
 
     private ListView lvMain;
-    private List<String> data = new ArrayList<>();
+    private List<WayBill> data = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getSupportActionBar().hide();
+        //getSupportActionBar().hide();
 
         initData();
         initView();
         initEvent();
     }
 
-
+    /**
+     * 从数据库查数据
+     */
     private void initData() {
-        data.add("北京");
-        data.add("上海");
-        data.add("广州");
-        data.add("深圳");
-        data.add("厦门");
-        data.add("天津");
-        data.add("石家庄");
-        data.add("西安");
-        data.add("沈阳");
-        data.add("青岛");
-        data.add("大连");
-        data.add("郑州");
-        data.add("银川");
+        Observable<List<WayBill>> observable = Observable.create(new ObservableOnSubscribe<List<WayBill>>() {
+            @Override
+            public void subscribe(ObservableEmitter<List<WayBill>> e) throws Exception {
+                // 进行数据库查询  （查询数据库是费时操作，放到其他线程）
+                List<WayBill> list = DbManager.getDaoSession(MainActivity.this).getWayBillDao().queryBuilder().orderDesc(WayBillDao.Properties.Id).limit(1).list();
+                e.onNext(list);
+            }
+        });
+
+        Consumer<List<WayBill>> consumer = new Consumer<List<WayBill>>() {
+            @Override
+            public void accept(List<WayBill> list) throws Exception {
+                lvMain.setAdapter(new MainAdapter(MainActivity.this, list));
+            }
+        };
+
+        observable.subscribeOn(Schedulers.io())  //被观察者执行的线程
+                .observeOn(AndroidSchedulers.mainThread())  //观察者执行的线程
+                .subscribe(consumer);
+
     }
 
     private void initView() {
         lvMain = findViewById(R.id.main_list);
         lvMain.addHeaderView(getHeader());
-        lvMain.setAdapter(new MainAdapter(this, data));
+
     }
 
     private void initEvent() {
@@ -73,25 +90,17 @@ public class MainActivity extends AppCompatActivity {
         rbSaoQr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                PermissionUtility.getRxPermission(MainActivity.this)
-//                        .request(Manifest.permission.READ_EXTERNAL_STORAGE) //读取外部存储权限
-//                        .subscribe(new Action<>() {
-//                            @Override
-//                            public void run() throws Exception {
-//
-//                            }
-//                        });
-//                        .subscribe(new Action<Boolean>() {
-//                            @Override
-//                            public void call(Boolean granted) {
-//                                if (granted) {
-//
-//                                }
-//                            }
-//                        });
-
-                Intent intent = new Intent(MainActivity.this, CaptureActivity.class);
-                startActivityForResult(intent, 99);
+                PermissionUtility.getRxPermission(MainActivity.this)
+                        .request(Manifest.permission.CAMERA) //调用相机权限
+                        .subscribe(new Consumer<Boolean>() {
+                            @Override
+                            public void accept(Boolean granted) throws Exception {
+                                if (granted) {
+                                    Intent intent = new Intent(MainActivity.this, CaptureActivity.class);
+                                    startActivityForResult(intent, 99);
+                                }
+                            }
+                        });
             }
         });
     }
@@ -116,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
      *
      * @return
      */
-    public View getHeader() {
+    private View getHeader() {
         View header = View.inflate(this, R.layout.list_header, null);
         rbCreateQr = header.findViewById(R.id.rb_1);
         rbSaoQr = header.findViewById(R.id.rb_2);
