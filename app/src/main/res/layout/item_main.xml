@@ -13,12 +13,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="18dp"
+        android:textColor="#555555"
         android:text="天津市宝坻区王卜庄镇李清庄"/>
     <TextView
         android:id="@+id/tv_show_name"
-        android:layout_width="wrap_content"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="30dp"
         android:text="程小二"/>
 
     <TextView
@@ -26,9 +27,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/tv_show_name"
-        android:layout_marginLeft="50dp"
         android:layout_toRightOf="@+id/tv_show_name"
         android:text="13702196232"/>
 
+    <TextView
+        android:id="@+id/tv_show_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_show_name"
+        android:layout_toRightOf="@+id/tv_show_phone"
+        android:layout_marginLeft="40dp"
+        android:text="2018-2-21"/>
+
+    <ImageView
+        android:id="@+id/iv_state"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/no_finish"/>
 
 </RelativeLayout>

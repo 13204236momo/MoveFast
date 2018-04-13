@@ -56,14 +56,21 @@ public class WayBill {
     /**
      * 是否派件完成 （0：未完成  1：已完成）
      */
+    @NotNull
     private int is_end;
 
+    /**
+     * 属于谁的订单 （现在登录的账户）
+     */
+    @NotNull
+    private String account;
 
 
-    @Generated(hash = 515627515)
+
+    @Generated(hash = 1085802754)
     public WayBill(Long id, @NotNull String name, @NotNull String address,
             @NotNull String phone, @NotNull String price, @NotNull String track_num,
-            @NotNull String create_time, int is_end) {
+            @NotNull String create_time, int is_end, @NotNull String account) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -72,11 +79,12 @@ public class WayBill {
         this.track_num = track_num;
         this.create_time = create_time;
         this.is_end = is_end;
+        this.account = account;
     }
 
     public WayBill( @NotNull String name, @NotNull String address,
                    @NotNull String phone, @NotNull String price, @NotNull String track_num,
-                   @NotNull String create_time,@NotNull int is_end) {
+                   @NotNull String create_time,@NotNull int is_end, @NotNull String account) {
 
         this.name = name;
         this.address = address;
@@ -85,6 +93,7 @@ public class WayBill {
         this.track_num = track_num;
         this.create_time = create_time;
         this.is_end = is_end;
+        this.account = account;
     }
 
     @Generated(hash = 257623155)
@@ -153,6 +162,14 @@ public class WayBill {
 
     public void setIs_end(int is_end) {
         this.is_end = is_end;
+    }
+
+    public String getAccount() {
+        return this.account;
+    }
+
+    public void setAccount(String account) {
+        this.account = account;
     }
 
    

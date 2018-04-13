@@ -16,14 +16,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".view.MainActivity">
+
+        </activity>
+        <activity android:name=".view.CreateQRActivity" />
+        <activity android:name=".qrcode.activity.CaptureActivity" />
+        <activity android:name=".view.HistoryActivity" />
+        <activity android:name=".view.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.CreateQRActivity" />
-        <activity android:name=".qrcode.activity.CaptureActivity"/>
     </application>
 
 </manifest>

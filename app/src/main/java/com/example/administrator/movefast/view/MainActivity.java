@@ -14,6 +14,7 @@ import com.example.administrator.movefast.db.DbManager;
 import com.example.administrator.movefast.entity.WayBill;
 import com.example.administrator.movefast.greendao.WayBillDao;
 import com.example.administrator.movefast.qrcode.activity.CaptureActivity;
+import com.example.administrator.movefast.utils.DataCenter;
 import com.example.administrator.movefast.utils.Helper;
 import com.example.administrator.movefast.utils.PermissionUtility;
 
@@ -32,9 +33,9 @@ public class MainActivity extends AppCompatActivity {
 
     private RadioButton rbCreateQr;
     private RadioButton rbSaoQr;
+    private RadioButton rbHistory;
 
     private ListView lvMain;
-    private List<WayBill> data = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +56,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void subscribe(ObservableEmitter<List<WayBill>> e) throws Exception {
                 // 进行数据库查询  （查询数据库是费时操作，放到其他线程）
-                List<WayBill> list = DbManager.getDaoSession(MainActivity.this).getWayBillDao().queryBuilder().orderDesc(WayBillDao.Properties.Id).limit(1).list();
+                List<WayBill> list = DbManager.getDaoSession(MainActivity.this).getWayBillDao().queryBuilder()
+                        .where(WayBillDao.Properties.Account.eq("123"))
+                       // .where(WayBillDao.Properties.Account.eq(DataCenter.getCurrentAccount(MainActivity.this)))
+                        .orderDesc(WayBillDao.Properties.Id).limit(8)
+                        .build()
+                        .list();
                 e.onNext(list);
             }
         });
@@ -103,6 +109,13 @@ public class MainActivity extends AppCompatActivity {
                         });
             }
         });
+
+        rbHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, HistoryActivity.class));
+            }
+        });
     }
 
     @Override
@@ -129,6 +142,7 @@ public class MainActivity extends AppCompatActivity {
         View header = View.inflate(this, R.layout.list_header, null);
         rbCreateQr = header.findViewById(R.id.rb_1);
         rbSaoQr = header.findViewById(R.id.rb_2);
+        rbHistory = header.findViewById(R.id.rb_3);
         return header;
     }
 }

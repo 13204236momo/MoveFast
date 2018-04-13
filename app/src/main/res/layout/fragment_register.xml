@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_login">
+
+    <ImageView
+        android:id="@+id/iv_back"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/back"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="输入你的注册信息"
+        android:textColor="@android:color/white"
+        android:textSize="18dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"/>
+
+    <EditText
+        android:id="@+id/et_input_account"
+        android:layout_width="240dp"
+        android:layout_height="40dp"
+        android:layout_centerHorizontal="true"
+        android:hint="请输入账户"
+        android:textColor="@android:color/white"
+        android:paddingLeft="10dp"
+        android:layout_marginTop="150dp"
+        android:textColorHint="@android:color/white"
+        android:background="@drawable/et_login_bg"/>
+    <EditText
+        android:id="@+id/et_input_pw"
+        android:layout_width="240dp"
+        android:layout_height="40dp"
+        android:layout_centerHorizontal="true"
+        android:hint="请输入密码"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="200dp"
+        android:paddingLeft="10dp"
+        android:textColorHint="@android:color/white"
+        android:background="@drawable/et_login_bg"/>
+    <EditText
+        android:id="@+id/et_again_pw"
+        android:layout_width="240dp"
+        android:layout_height="40dp"
+        android:layout_centerHorizontal="true"
+        android:hint="请确认密码"
+        android:textColor="@android:color/white"
+        android:paddingLeft="10dp"
+        android:layout_marginTop="250dp"
+        android:textColorHint="@android:color/white"
+        android:background="@drawable/et_login_bg"/>
+
+    <TextView
+        android:id="@+id/tv_finish"
+        android:layout_width="150dp"
+        android:layout_height="35dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="340dp"
+        android:gravity="center"
+        android:textSize="20dp"
+        android:textColor="@android:color/white"
+        android:background="@drawable/finish_bg"
+        android:text="完       成"/>
+
+</RelativeLayout>

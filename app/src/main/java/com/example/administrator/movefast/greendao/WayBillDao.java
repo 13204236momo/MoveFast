@@ -32,6 +32,7 @@ public class WayBillDao extends AbstractDao<WayBill, Long> {
         public final static Property Track_num = new Property(5, String.class, "track_num", false, "TRACK_NUM");
         public final static Property Create_time = new Property(6, String.class, "create_time", false, "CREATE_TIME");
         public final static Property Is_end = new Property(7, int.class, "is_end", false, "IS_END");
+        public final static Property Account = new Property(8, String.class, "account", false, "ACCOUNT");
     }
 
 
@@ -54,7 +55,8 @@ public class WayBillDao extends AbstractDao<WayBill, Long> {
                 "\"PRICE\" TEXT NOT NULL ," + // 4: price
                 "\"TRACK_NUM\" TEXT NOT NULL UNIQUE ," + // 5: track_num
                 "\"CREATE_TIME\" TEXT NOT NULL ," + // 6: create_time
-                "\"IS_END\" INTEGER NOT NULL );"); // 7: is_end
+                "\"IS_END\" INTEGER NOT NULL ," + // 7: is_end
+                "\"ACCOUNT\" TEXT NOT NULL );"); // 8: account
     }
 
     /** Drops the underlying database table. */
@@ -78,6 +80,7 @@ public class WayBillDao extends AbstractDao<WayBill, Long> {
         stmt.bindString(6, entity.getTrack_num());
         stmt.bindString(7, entity.getCreate_time());
         stmt.bindLong(8, entity.getIs_end());
+        stmt.bindString(9, entity.getAccount());
     }
 
     @Override
@@ -95,6 +98,7 @@ public class WayBillDao extends AbstractDao<WayBill, Long> {
         stmt.bindString(6, entity.getTrack_num());
         stmt.bindString(7, entity.getCreate_time());
         stmt.bindLong(8, entity.getIs_end());
+        stmt.bindString(9, entity.getAccount());
     }
 
     @Override
@@ -112,7 +116,8 @@ public class WayBillDao extends AbstractDao<WayBill, Long> {
             cursor.getString(offset + 4), // price
             cursor.getString(offset + 5), // track_num
             cursor.getString(offset + 6), // create_time
-            cursor.getInt(offset + 7) // is_end
+            cursor.getInt(offset + 7), // is_end
+            cursor.getString(offset + 8) // account
         );
         return entity;
     }
@@ -127,6 +132,7 @@ public class WayBillDao extends AbstractDao<WayBill, Long> {
         entity.setTrack_num(cursor.getString(offset + 5));
         entity.setCreate_time(cursor.getString(offset + 6));
         entity.setIs_end(cursor.getInt(offset + 7));
+        entity.setAccount(cursor.getString(offset + 8));
      }
     
     @Override
