@@ -11,7 +11,9 @@ import android.widget.RadioButton;
 import com.example.administrator.movefast.R;
 import com.example.administrator.movefast.adapter.MainAdapter;
 import com.example.administrator.movefast.db.DbManager;
+import com.example.administrator.movefast.entity.User;
 import com.example.administrator.movefast.entity.WayBill;
+import com.example.administrator.movefast.greendao.UserDao;
 import com.example.administrator.movefast.greendao.WayBillDao;
 import com.example.administrator.movefast.qrcode.activity.CaptureActivity;
 import com.example.administrator.movefast.utils.DataCenter;
@@ -43,22 +45,44 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         //getSupportActionBar().hide();
 
-        initData();
+        getLoginUser();
         initView();
         initEvent();
+    }
+
+    private void getLoginUser(){
+        Observable<List<User>> observable = Observable.create(new ObservableOnSubscribe<List<User>>() {
+            @Override
+            public void subscribe(ObservableEmitter<List<User>> e) throws Exception {
+                // 进行数据库查询  （查询数据库是费时操作，放到其他线程）
+                List<User> list = DbManager.getDaoSession(MainActivity.this).getUserDao().queryBuilder().where(UserDao.Properties.Is_login.eq(1)).limit(1).list();
+                e.onNext(list);
+            }
+        });
+
+        Consumer<List<User>> consumer = new Consumer<List<User>>() {
+            @Override
+            public void accept(List<User> list) throws Exception {
+               initData(list.get(0));
+            }
+        };
+
+        observable.subscribeOn(Schedulers.io())  //被观察者执行的线程
+                .observeOn(AndroidSchedulers.mainThread())  //观察者执行的线程
+                .subscribe(consumer);
     }
 
     /**
      * 从数据库查数据
      */
-    private void initData() {
+    private void initData(final User user) {
         Observable<List<WayBill>> observable = Observable.create(new ObservableOnSubscribe<List<WayBill>>() {
             @Override
             public void subscribe(ObservableEmitter<List<WayBill>> e) throws Exception {
                 // 进行数据库查询  （查询数据库是费时操作，放到其他线程）
                 List<WayBill> list = DbManager.getDaoSession(MainActivity.this).getWayBillDao().queryBuilder()
-                        .where(WayBillDao.Properties.Account.eq("123"))
-                       // .where(WayBillDao.Properties.Account.eq(DataCenter.getCurrentAccount(MainActivity.this)))
+                       // .where(WayBillDao.Properties.Account.eq("123"))
+                        .where(WayBillDao.Properties.Account.eq(user))
                         .orderDesc(WayBillDao.Properties.Id).limit(8)
                         .build()
                         .list();
