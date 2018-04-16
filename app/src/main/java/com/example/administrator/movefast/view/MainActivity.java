@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private RadioButton rbCreateQr;
     private RadioButton rbSaoQr;
     private RadioButton rbHistory;
+    private RadioButton rbUser;
 
     private ListView lvMain;
 
@@ -45,12 +46,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         //getSupportActionBar().hide();
 
-        getLoginUser();
         initView();
+        getLoginUser();
         initEvent();
     }
 
-    private void getLoginUser(){
+    private void getLoginUser() {
         Observable<List<User>> observable = Observable.create(new ObservableOnSubscribe<List<User>>() {
             @Override
             public void subscribe(ObservableEmitter<List<User>> e) throws Exception {
@@ -63,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         Consumer<List<User>> consumer = new Consumer<List<User>>() {
             @Override
             public void accept(List<User> list) throws Exception {
-               initData(list.get(0));
+                initData(list.get(0));
             }
         };
 
@@ -81,8 +82,8 @@ public class MainActivity extends AppCompatActivity {
             public void subscribe(ObservableEmitter<List<WayBill>> e) throws Exception {
                 // 进行数据库查询  （查询数据库是费时操作，放到其他线程）
                 List<WayBill> list = DbManager.getDaoSession(MainActivity.this).getWayBillDao().queryBuilder()
-                       // .where(WayBillDao.Properties.Account.eq("123"))
-                        .where(WayBillDao.Properties.Account.eq(user))
+                        // .where(WayBillDao.Properties.Account.eq("123"))
+                        .where(WayBillDao.Properties.Account.eq(user.getAccount()))
                         .orderDesc(WayBillDao.Properties.Id).limit(8)
                         .build()
                         .list();
@@ -140,6 +141,13 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, HistoryActivity.class));
             }
         });
+
+        rbUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, UserActivity.class));
+            }
+        });
     }
 
     @Override
@@ -167,6 +175,13 @@ public class MainActivity extends AppCompatActivity {
         rbCreateQr = header.findViewById(R.id.rb_1);
         rbSaoQr = header.findViewById(R.id.rb_2);
         rbHistory = header.findViewById(R.id.rb_3);
+        rbUser = header.findViewById(R.id.rb_8);
         return header;
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        getLoginUser();
     }
 }

@@ -7,7 +7,9 @@ import android.widget.ListView;
 import com.example.administrator.movefast.R;
 import com.example.administrator.movefast.adapter.MainAdapter;
 import com.example.administrator.movefast.db.DbManager;
+import com.example.administrator.movefast.entity.User;
 import com.example.administrator.movefast.entity.WayBill;
+import com.example.administrator.movefast.greendao.UserDao;
 import com.example.administrator.movefast.greendao.WayBillDao;
 import com.example.administrator.movefast.widget.TopBar;
 
@@ -30,17 +32,45 @@ public class HistoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_history);
         getSupportActionBar().hide();
 
-        initData();
         initView();
+        getLoginUser();
         initEvent();
     }
 
-    private void initData() {
+    private void getLoginUser() {
+        Observable<List<User>> observable = Observable.create(new ObservableOnSubscribe<List<User>>() {
+            @Override
+            public void subscribe(ObservableEmitter<List<User>> e) throws Exception {
+                // 进行数据库查询  （查询数据库是费时操作，放到其他线程）
+                List<User> list = DbManager.getDaoSession(HistoryActivity.this).getUserDao().queryBuilder().where(UserDao.Properties.Is_login.eq(1)).limit(1).list();
+                e.onNext(list);
+            }
+        });
+
+        Consumer<List<User>> consumer = new Consumer<List<User>>() {
+            @Override
+            public void accept(List<User> list) throws Exception {
+                initData(list.get(0));
+            }
+        };
+
+        observable.subscribeOn(Schedulers.io())  //被观察者执行的线程
+                .observeOn(AndroidSchedulers.mainThread())  //观察者执行的线程
+                .subscribe(consumer);
+    }
+
+
+    private void initData(final User user) {
         Observable<List<WayBill>> observable = Observable.create(new ObservableOnSubscribe<List<WayBill>>() {
             @Override
             public void subscribe(ObservableEmitter<List<WayBill>> e) throws Exception {
                 // 进行数据库查询  （查询数据库是费时操作，放到其他线程）
-                List<WayBill> list = DbManager.getDaoSession(HistoryActivity.this).getWayBillDao().queryBuilder().list();
+                List<WayBill> list = DbManager.getDaoSession(HistoryActivity.this).getWayBillDao().queryBuilder()
+                        // .where(WayBillDao.Properties.Account.eq("123"))
+                        .where(WayBillDao.Properties.Account.eq(user.getAccount()))
+                        .orderDesc(WayBillDao.Properties.Id)
+                        .build()
+                        .list();
                 e.onNext(list);
             }
         });
@@ -64,6 +94,12 @@ public class HistoryActivity extends AppCompatActivity {
     }
 
     private void initEvent() {
+        topBar.setOnTopClickListener(new TopBar.OnTopClickListener() {
+            @Override
+            public void onLeftClick() {
+                finish();
+            }
+        });
     }
 
 }
