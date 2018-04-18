@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private RadioButton rbSaoQr;
     private RadioButton rbHistory;
     private RadioButton rbUser;
+    private RadioButton rbMap;
 
     private ListView lvMain;
 
@@ -142,6 +143,24 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        rbMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PermissionUtility.getRxPermission(MainActivity.this)
+                        .request(Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.READ_PHONE_STATE) //申请定位权限
+                        .subscribe(new Consumer<Boolean>() {
+                            @Override
+                            public void accept(Boolean granted) throws Exception {
+                                if (granted) {
+                                    startActivity(new Intent(MainActivity.this,MapActivity.class));
+                                }else {
+                                    Helper.showToast("请开启定位权限");
+                                }
+                            }
+                        });
+            }
+        });
+
         rbUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -175,6 +194,7 @@ public class MainActivity extends AppCompatActivity {
         rbCreateQr = header.findViewById(R.id.rb_1);
         rbSaoQr = header.findViewById(R.id.rb_2);
         rbHistory = header.findViewById(R.id.rb_3);
+        rbMap = header.findViewById(R.id.rb_4);
         rbUser = header.findViewById(R.id.rb_8);
         return header;
     }

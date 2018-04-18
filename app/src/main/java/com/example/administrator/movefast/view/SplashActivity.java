@@ -1,5 +1,6 @@
 package com.example.administrator.movefast.view;
 
+import android.Manifest;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,6 +9,9 @@ import com.example.administrator.movefast.R;
 import com.example.administrator.movefast.db.DbManager;
 import com.example.administrator.movefast.entity.User;
 import com.example.administrator.movefast.greendao.UserDao;
+import com.example.administrator.movefast.qrcode.activity.CaptureActivity;
+import com.example.administrator.movefast.utils.Helper;
+import com.example.administrator.movefast.utils.PermissionUtility;
 
 import java.util.List;
 
@@ -48,6 +52,7 @@ public class SplashActivity extends AppCompatActivity {
                 } else {
                     startActivity(new Intent(SplashActivity.this, LoginActivity.class));
                 }
+                finish();
 
             }
         };
@@ -55,5 +60,8 @@ public class SplashActivity extends AppCompatActivity {
         observable.subscribeOn(Schedulers.io())  //被观察者执行的线程
                 .observeOn(AndroidSchedulers.mainThread())  //观察者执行的线程
                 .subscribe(consumer);
+
+
+
     }
 }

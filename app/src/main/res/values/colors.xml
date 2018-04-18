@@ -14,4 +14,6 @@
     <color name="line_grey">#d8d8d8</color>
 
     <color name="space_grey">#eeeeee</color>
+    <color name="transparent">#00000000</color>
+    <color name="phone_bg">#f6f6f6</color>
 </resources>
