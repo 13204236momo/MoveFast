@@ -17,7 +17,7 @@
         android:text="天津市宝坻区王卜庄镇李清庄"/>
     <TextView
         android:id="@+id/tv_show_name"
-        android:layout_width="80dp"
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:text="程小二"/>
@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/tv_show_name"
         android:layout_toRightOf="@+id/tv_show_phone"
-        android:layout_marginLeft="40dp"
+        android:layout_marginLeft="20dp"
         android:text="2018-2-21"/>
 
     <ImageView

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RadioButton;
 
@@ -40,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
     private RadioButton rbMap;
 
     private ListView lvMain;
+
+    private List<WayBill> itemList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,8 +97,18 @@ public class MainActivity extends AppCompatActivity {
 
         Consumer<List<WayBill>> consumer = new Consumer<List<WayBill>>() {
             @Override
-            public void accept(List<WayBill> list) throws Exception {
+            public void accept(final List<WayBill> list) throws Exception {
                 lvMain.setAdapter(new MainAdapter(MainActivity.this, list));
+               // itemList = list;
+
+                lvMain.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Intent intent = new Intent(MainActivity.this,MapActivity.class);
+                        intent.putExtra("destination",list.get(position-1).getAddress());
+                        startActivity(intent);
+                    }
+                });
             }
         };
 
@@ -108,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
     private void initView() {
         lvMain = findViewById(R.id.main_list);
         lvMain.addHeaderView(getHeader());
+
 
     }
 

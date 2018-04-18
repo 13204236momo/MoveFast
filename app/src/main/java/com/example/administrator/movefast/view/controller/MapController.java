@@ -22,6 +22,11 @@ import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.MyLocationStyle;
 import com.amap.api.services.core.AMapException;
 import com.amap.api.services.core.LatLonPoint;
+import com.amap.api.services.geocoder.GeocodeAddress;
+import com.amap.api.services.geocoder.GeocodeQuery;
+import com.amap.api.services.geocoder.GeocodeResult;
+import com.amap.api.services.geocoder.GeocodeSearch;
+import com.amap.api.services.geocoder.RegeocodeResult;
 import com.amap.api.services.route.BusRouteResult;
 import com.amap.api.services.route.DriveRouteResult;
 import com.amap.api.services.route.RidePath;
@@ -39,7 +44,7 @@ import com.example.administrator.movefast.view.RideRouteDetailActivity;
  * Created by Administrator on 2018/4/17 0017.
  */
 
-public class MapController implements LocationSource, AMapLocationListener, RouteSearch.OnRouteSearchListener {
+public class MapController implements LocationSource, AMapLocationListener, RouteSearch.OnRouteSearchListener, GeocodeSearch.OnGeocodeSearchListener {
 
     //路线规划方式 ：骑车
     private final int ROUTE_TYPE_RIDE = 4;
@@ -56,6 +61,9 @@ public class MapController implements LocationSource, AMapLocationListener, Rout
     private AMapLocationClientOption mLocationOption;
     private OnLocationChangedListener mListener;
 
+    //
+    private GeocodeSearch geocodeSearch;
+
     private TextView mRouteTimeDes, mRouteDetailDes;
     private RelativeLayout mBottomLayout;
 
@@ -70,15 +78,36 @@ public class MapController implements LocationSource, AMapLocationListener, Rout
     private void init() {
         initView();
         initLocation();
+        getEndData();
 
         mRouteSearch = new RouteSearch(context);
         mRouteSearch.setRouteSearchListener(this);
     }
 
-    private void initView(){
+    private void initView() {
         mRouteTimeDes = (TextView) context.findViewById(R.id.firstline);
         mRouteDetailDes = (TextView) context.findViewById(R.id.secondline);
         mBottomLayout = (RelativeLayout) context.findViewById(R.id.bottom_layout);
+    }
+
+    /**
+     * 通过订单里的收件地址查出 经纬度，从而进行路线规划
+     */
+    private void getEndData() {
+        geocodeSearch = new GeocodeSearch(context);
+        geocodeSearch.setOnGeocodeSearchListener(this);
+
+        String destination = context.getIntent().getStringExtra("destination"); //目的地
+
+        String city;
+        if (destination.contains("省")){
+             city = destination.split("市")[0].split("省")[1];
+        }else {
+             city = destination.split("市")[0];
+        }
+
+        GeocodeQuery query = new GeocodeQuery(destination, city);
+        geocodeSearch.getFromLocationNameAsyn(query);
     }
 
     /**
@@ -166,7 +195,7 @@ public class MapController implements LocationSource, AMapLocationListener, Rout
      */
     private void setFormantToMarker(AMapLocation aMapLocation) {
         latLngStart = new LatLonPoint(aMapLocation.getLatitude(), aMapLocation.getLongitude());
-        latLngEnd = new LatLonPoint(39.995576, 116.481288);
+
         aMap.addMarker(new MarkerOptions()
                 .position(AMapUtil.convertToLatLng(latLngStart))
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.start)));
@@ -233,7 +262,7 @@ public class MapController implements LocationSource, AMapLocationListener, Rout
                     rideRouteOverlay.removeFromMap();
                     rideRouteOverlay.addToMap();
                     rideRouteOverlay.zoomToSpan();
-                     mBottomLayout.setVisibility(View.VISIBLE);
+                    mBottomLayout.setVisibility(View.VISIBLE);
                     int dis = (int) ridePath.getDistance();
                     int dur = (int) ridePath.getDuration();
                     String des = AMapUtil.getFriendlyTime(dur) + "(" + AMapUtil.getFriendlyLength(dis) + ")";
@@ -242,9 +271,9 @@ public class MapController implements LocationSource, AMapLocationListener, Rout
                     mBottomLayout.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent intent = new Intent(context,RideRouteDetailActivity.class);
+                            Intent intent = new Intent(context, RideRouteDetailActivity.class);
                             intent.putExtra("ride_path", ridePath);
-                            intent.putExtra("ride_result",mRideRouteResult);
+                            intent.putExtra("ride_result", mRideRouteResult);
                             context.startActivity(intent);
                         }
                     });
@@ -258,5 +287,21 @@ public class MapController implements LocationSource, AMapLocationListener, Rout
             Helper.showToast(errorCode + "");
         }
 
+    }
+
+    //OnGeocodeSearchListener 接口方法
+    @Override
+    public void onRegeocodeSearched(RegeocodeResult regeocodeResult, int i) {
+
+    }
+
+    @Override
+    public void onGeocodeSearched(GeocodeResult geocodeResult, int reCoed) {
+        if (reCoed == 1000) {
+            GeocodeAddress address = geocodeResult.getGeocodeAddressList().get(0);
+            latLngEnd = address.getLatLonPoint();
+        }else {
+            Helper.showToast("定位不到收件地址！");
+        }
     }
 }
