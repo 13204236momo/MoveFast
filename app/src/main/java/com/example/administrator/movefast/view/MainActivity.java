@@ -20,6 +20,7 @@ import com.example.administrator.movefast.qrcode.activity.CaptureActivity;
 import com.example.administrator.movefast.utils.DataCenter;
 import com.example.administrator.movefast.utils.Helper;
 import com.example.administrator.movefast.utils.PermissionUtility;
+import com.example.administrator.movefast.view.fragment.MapActivity1;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,8 +42,6 @@ public class MainActivity extends AppCompatActivity {
     private RadioButton rbMap;
 
     private ListView lvMain;
-
-    private List<WayBill> itemList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,14 +98,24 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void accept(final List<WayBill> list) throws Exception {
                 lvMain.setAdapter(new MainAdapter(MainActivity.this, list));
-               // itemList = list;
-
                 lvMain.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        Intent intent = new Intent(MainActivity.this,MapActivity.class);
-                        intent.putExtra("destination",list.get(position-1).getAddress());
-                        startActivity(intent);
+                    public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                        PermissionUtility.getRxPermission(MainActivity.this)
+                                .request(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.READ_PHONE_STATE) //申请定位权限
+                                .subscribe(new Consumer<Boolean>() {
+                                    @Override
+                                    public void accept(Boolean granted) throws Exception {
+                                        if (granted) {
+                                            Intent intent = new Intent(MainActivity.this, MapActivity.class);
+                                           // intent.putExtra("destination", list.get(position - 1).getAddress());
+                                            intent.putExtra("data", list.get(position - 1));
+                                            startActivity(intent);
+                                        } else {
+                                            Helper.showToast("请开启定位权限");
+                                        }
+                                    }
+                                });
                     }
                 });
             }
@@ -161,13 +170,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 PermissionUtility.getRxPermission(MainActivity.this)
-                        .request(Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.READ_PHONE_STATE) //申请定位权限
+                        .request(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.READ_PHONE_STATE) //申请定位权限
                         .subscribe(new Consumer<Boolean>() {
                             @Override
                             public void accept(Boolean granted) throws Exception {
                                 if (granted) {
-                                    startActivity(new Intent(MainActivity.this,MapActivity.class));
-                                }else {
+                                    startActivity(new Intent(MainActivity.this, MapActivity1.class));
+                                } else {
                                     Helper.showToast("请开启定位权限");
                                 }
                             }

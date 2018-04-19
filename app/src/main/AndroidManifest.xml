@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <!-- 高德地图 -->
     <!-- 允许程序打开网络套接字 -->
@@ -54,7 +55,12 @@
         <activity android:name=".view.UserActivity" />
         <activity android:name=".view.SettingActivity" />
         <activity android:name=".view.MapActivity"/>
+        <activity android:name=".view.fragment.MapActivity1"/>
         <activity android:name=".view.RideRouteDetailActivity"/>
+
+        <!--//定位服务-->
+        <service android:name="com.amap.api.location.APSService"></service>
+
     </application>
 
 </manifest>

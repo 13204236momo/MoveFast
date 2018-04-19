@@ -1,10 +1,15 @@
 package com.example.administrator.movefast.entity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.NotNull;
 import org.greenrobot.greendao.annotation.Unique;
 import org.greenrobot.greendao.annotation.Generated;
+
+import java.io.Serializable;
 
 /**
  * Created by Administrator on 2018/4/11 0011.
@@ -12,7 +17,7 @@ import org.greenrobot.greendao.annotation.Generated;
  */
 
 @Entity
-public class WayBill {
+public class WayBill implements Parcelable {
     @Id(autoincrement = true)
     private Long id;
 
@@ -172,5 +177,46 @@ public class WayBill {
         this.account = account;
     }
 
-   
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeValue(this.id);
+        dest.writeString(this.name);
+        dest.writeString(this.address);
+        dest.writeString(this.phone);
+        dest.writeString(this.price);
+        dest.writeString(this.track_num);
+        dest.writeString(this.create_time);
+        dest.writeInt(this.is_end);
+        dest.writeString(this.account);
+    }
+
+    protected WayBill(Parcel in) {
+        this.id = (Long) in.readValue(Long.class.getClassLoader());
+        this.name = in.readString();
+        this.address = in.readString();
+        this.phone = in.readString();
+        this.price = in.readString();
+        this.track_num = in.readString();
+        this.create_time = in.readString();
+        this.is_end = in.readInt();
+        this.account = in.readString();
+    }
+
+    public static final Parcelable.Creator<WayBill> CREATOR = new Parcelable.Creator<WayBill>() {
+        @Override
+        public WayBill createFromParcel(Parcel source) {
+            return new WayBill(source);
+        }
+
+        @Override
+        public WayBill[] newArray(int size) {
+            return new WayBill[size];
+        }
+    };
 }
