@@ -1,7 +1,11 @@
 package com.example.administrator.movefast.view;
 
+import android.Manifest;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.administrator.movefast.R;
@@ -11,6 +15,8 @@ import com.example.administrator.movefast.entity.User;
 import com.example.administrator.movefast.entity.WayBill;
 import com.example.administrator.movefast.greendao.UserDao;
 import com.example.administrator.movefast.greendao.WayBillDao;
+import com.example.administrator.movefast.utils.Helper;
+import com.example.administrator.movefast.utils.PermissionUtility;
 import com.example.administrator.movefast.widget.TopBar;
 
 import java.util.List;
@@ -25,6 +31,8 @@ import io.reactivex.schedulers.Schedulers;
 public class HistoryActivity extends AppCompatActivity {
     private ListView lvHistory;
     private TopBar topBar;
+
+    private List<WayBill> data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +86,9 @@ public class HistoryActivity extends AppCompatActivity {
         Consumer<List<WayBill>> consumer = new Consumer<List<WayBill>>() {
             @Override
             public void accept(List<WayBill> list) throws Exception {
+                data = list;
                 lvHistory.setAdapter(new MainAdapter(HistoryActivity.this, list));
+
             }
         };
 
@@ -98,6 +108,31 @@ public class HistoryActivity extends AppCompatActivity {
             @Override
             public void onLeftClick() {
                 finish();
+            }
+        });
+
+        lvHistory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                lvHistory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                        PermissionUtility.getRxPermission(HistoryActivity.this)
+                                .request(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.READ_PHONE_STATE) //申请定位权限
+                                .subscribe(new Consumer<Boolean>() {
+                                    @Override
+                                    public void accept(Boolean granted) throws Exception {
+                                        if (granted) {
+                                            Intent intent = new Intent(HistoryActivity.this, MapActivity.class);
+                                            intent.putExtra("data", data.get(position - 1));
+                                            startActivity(intent);
+                                        } else {
+                                            Helper.showToast("请开启定位权限");
+                                        }
+                                    }
+                                });
+                    }
+                });
             }
         });
     }
