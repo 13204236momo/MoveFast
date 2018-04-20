@@ -24,8 +24,6 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
-
-
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -52,15 +50,17 @@
         <activity android:name=".qrcode.activity.CaptureActivity" />
         <activity android:name=".view.HistoryActivity" />
         <activity android:name=".view.LoginActivity" />
-        <activity android:name=".view.UserActivity" />
+        <activity android:name=".view.MoreActivity" />
         <activity android:name=".view.SettingActivity" />
-        <activity android:name=".view.MapActivity"/>
-        <activity android:name=".view.fragment.MapActivity1"/>
-        <activity android:name=".view.RideRouteDetailActivity"/>
+        <activity android:name=".view.MapActivity" />
+        <activity android:name=".view.fragment.MapActivity1" />
+        <activity android:name=".view.RideRouteDetailActivity" />
 
-        <!--//定位服务-->
-        <service android:name="com.amap.api.location.APSService"></service>
+        <!-- //定位服务 -->
+        <service android:name="com.amap.api.location.APSService" />
 
+        <activity android:name=".view.UserActivity" />
+        <activity android:name=".view.ChangeUserDetailActivity"></activity>
     </application>
 
 </manifest>

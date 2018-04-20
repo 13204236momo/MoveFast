@@ -66,6 +66,11 @@ public class CaptureActivity extends Activity implements Callback {
 			public void onLeftClick() {
 				finish();
 			}
+
+			@Override
+			public void onRightClick() {
+
+			}
 		});
 	}
 

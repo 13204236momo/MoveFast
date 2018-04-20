@@ -109,6 +109,11 @@ public class HistoryActivity extends AppCompatActivity {
             public void onLeftClick() {
                 finish();
             }
+
+            @Override
+            public void onRightClick() {
+
+            }
         });
 
         lvHistory.setOnItemClickListener(new AdapterView.OnItemClickListener() {

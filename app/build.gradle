@@ -20,7 +20,7 @@ android {
 
     greendao {
         //数据库的schema版本，也可以理解为数据库版本号
-        schemaVersion 4
+        schemaVersion 8
         //设置DaoMaster、DaoSession、Dao包名，也就是要放置这些类的包的全路径。
         daoPackage 'com.example.administrator.movefast.greendao'
         //设置DaoMaster、DaoSession、Dao目录
@@ -44,6 +44,7 @@ dependencies {
     compile 'io.reactivex.rxjava2:rxjava:2.0.1'
     //异步操作
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    compile 'org.greenrobot:eventbus:3.0.0' //eventBus
     //异步操作
     implementation files('libs/Android_Map3D_SDK_V6.1.0_20180330.jar')
     implementation files('libs/AMap_Location_V3.8.0_20180201.jar')

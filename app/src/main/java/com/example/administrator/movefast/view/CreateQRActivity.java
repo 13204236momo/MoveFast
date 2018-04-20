@@ -105,6 +105,11 @@ public class CreateQRActivity extends AppCompatActivity {
             public void onLeftClick() {
                 finish();
             }
+
+            @Override
+            public void onRightClick() {
+
+            }
         });
 
         btnCreate.setOnClickListener(new View.OnClickListener() {

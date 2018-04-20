@@ -1,17 +1,12 @@
 package com.example.administrator.movefast.view;
 
-import android.Manifest;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
-import com.example.administrator.movefast.R;
 import com.example.administrator.movefast.db.DbManager;
 import com.example.administrator.movefast.entity.User;
 import com.example.administrator.movefast.greendao.UserDao;
-import com.example.administrator.movefast.qrcode.activity.CaptureActivity;
-import com.example.administrator.movefast.utils.Helper;
-import com.example.administrator.movefast.utils.PermissionUtility;
 
 import java.util.List;
 

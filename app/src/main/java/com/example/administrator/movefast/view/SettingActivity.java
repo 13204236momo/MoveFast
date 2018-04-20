@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.administrator.movefast.R;
@@ -25,7 +26,11 @@ import io.reactivex.schedulers.Schedulers;
 public class SettingActivity extends AppCompatActivity {
 
     private TopBar top;
-    private TextView tvQuit;
+    private EditText etOldPassword;
+    private EditText etNewPassword;
+    private EditText etRePassword;
+
+    private User currentLoginUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,13 +38,22 @@ public class SettingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_setting);
         getSupportActionBar().hide();
 
+        initData();
         initView();
         initEvent();
     }
 
+    private void initData(){
+        currentLoginUser = getIntent().getParcelableExtra("user");
+    }
+
     private void initView() {
         top = findViewById(R.id.top);
-        tvQuit = findViewById(R.id.tv_quit);
+        etOldPassword = findViewById(R.id.old_pw);
+        etNewPassword = findViewById(R.id.new_pw);
+        etRePassword = findViewById(R.id.re_pw);
+
+        top.setRightVisibility();
         top.setTitle("设置");
     }
 
@@ -49,44 +63,36 @@ public class SettingActivity extends AppCompatActivity {
             public void onLeftClick() {
                 finish();
             }
-        });
 
-        tvQuit.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                logout();
+            public void onRightClick() {
+                changePassword();
             }
         });
+
+
     }
 
-    private void logout() {
-        Observable<List<User>> observable = Observable.create(new ObservableOnSubscribe<List<User>>() {
-            @Override
-            public void subscribe(ObservableEmitter<List<User>> e) throws Exception {
-                // 进行数据库查询  （查询数据库是费时操作，放到其他线程）
-                List<User> list = DbManager.getDaoSession(SettingActivity.this).getUserDao().queryBuilder().where(UserDao.Properties.Is_login.eq(1)).limit(1).list();
-                e.onNext(list);
-            }
-        });
+    private void changePassword() {
+        if (etOldPassword.getText().toString().equals("")){
+            Helper.showToast("原密码不能为空！");
+            return;
+        }else  if (etNewPassword.getText().toString().equals("")){
+            Helper.showToast("新密码不能为空！");
+            return;
+        }else if (etRePassword.getText().toString().equals("")){
+            Helper.showToast("确认密码不能为空！");
+            return;
+        }
 
-        Consumer<List<User>> consumer = new Consumer<List<User>>() {
-            @Override
-            public void accept(List<User> list) throws Exception {
-                if (list.size() > 0) {
-                    User user = list.get(0);
-                    user.setIs_login(0);
-                    DbManager.getDaoSession(SettingActivity.this).getUserDao().update(user);
-                    startActivity(new Intent(SettingActivity.this,LoginActivity.class));
-                    Helper.showToast("成功退出登录！");
-                } else {
-                    Helper.showToast("您还没有登录！");
-                }
+        if (!etNewPassword.getText().toString().trim().equals(etRePassword.getText().toString().trim())){
+            Helper.showToast("两次输入的密码不同，请重新输入！");
+            return;
+        }
 
-            }
-        };
+        currentLoginUser.setPass_word(etRePassword.getText().toString().trim());
+        DbManager.getDaoSession(this).getUserDao().update(currentLoginUser);
+        Helper.showToast("修改密码成功！");
 
-        observable.subscribeOn(Schedulers.io())  //被观察者执行的线程
-                .observeOn(AndroidSchedulers.mainThread())  //观察者执行的线程
-                .subscribe(consumer);
     }
 }

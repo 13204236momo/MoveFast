@@ -105,6 +105,11 @@ public class RideRouteDetailActivity extends Activity {
             public void onLeftClick() {
                 finish();
             }
+
+            @Override
+            public void onRightClick() {
+
+            }
         });
 
         ivState.setOnClickListener(new View.OnClickListener() {

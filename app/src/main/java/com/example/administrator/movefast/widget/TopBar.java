@@ -20,6 +20,7 @@ public class TopBar extends LinearLayout {
     private Context context;
     private TextView tvTitle;
     private TextView tvBack;
+    private TextView tvRight;
     private OnTopClickListener listener;
     public TopBar(Context context) {
         this(context,null);
@@ -40,6 +41,7 @@ public class TopBar extends LinearLayout {
         View.inflate(context, R.layout.view_topbar, this);
         tvTitle = findViewById(R.id.tv_title);
         tvBack = findViewById(R.id.tv_back);
+        tvRight = findViewById(R.id.tv_right);
     }
 
     public void setTitle(String title){
@@ -56,10 +58,26 @@ public class TopBar extends LinearLayout {
                 }
             }
         });
+
+        tvRight.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener != null){
+                    listener.onRightClick();
+                }
+            }
+        });
+
+    }
+
+    public void setRightVisibility(){
+        tvRight.setVisibility(VISIBLE);
     }
 
     public interface OnTopClickListener{
         void onLeftClick();
+
+        void onRightClick();
     }
 
     public void setOnTopClickListener(OnTopClickListener l){

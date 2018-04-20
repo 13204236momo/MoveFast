@@ -1,25 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.example.administrator.movefast.view.SettingActivity">
+
     <com.example.administrator.movefast.widget.TopBar
         android:id="@+id/top"
         android:layout_width="match_parent"
-        android:layout_height="50dp"/>
-    <TextView
-        android:id="@+id/tv_quit"
+        android:layout_height="50dp" />
+
+    <View
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:textSize="20dp"
-        android:textColor="@android:color/white"
-        android:background="@drawable/bg_btn"
-        android:gravity="center"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="200dp"
-        android:text="退 出 登 录"/>
+        android:layout_height="1dp"
+        android:background="@color/line_grey" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="@color/space_grey" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/line_grey" />
+
+    <EditText
+        android:id="@+id/old_pw"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:paddingLeft="15dp"
+        android:inputType="textPassword"
+        android:background="@android:color/white"
+        android:hint="原密码" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/line_grey" />
+
+    <EditText
+        android:id="@+id/new_pw"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:paddingLeft="15dp"
+        android:inputType="textPassword"
+        android:background="@android:color/white"
+        android:hint="新密码" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/line_grey" />
+
+    <EditText
+        android:id="@+id/re_pw"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:paddingLeft="15dp"
+        android:inputType="textPassword"
+        android:background="@android:color/white"
+        android:hint="确认密码" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/line_grey" />
+
+
 </LinearLayout>

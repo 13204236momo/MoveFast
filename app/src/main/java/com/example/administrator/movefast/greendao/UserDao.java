@@ -28,6 +28,12 @@ public class UserDao extends AbstractDao<User, Long> {
         public final static Property Account = new Property(1, String.class, "account", false, "ACCOUNT");
         public final static Property Pass_word = new Property(2, String.class, "pass_word", false, "PASS_WORD");
         public final static Property Is_login = new Property(3, int.class, "is_login", false, "IS_LOGIN");
+        public final static Property Name = new Property(4, String.class, "name", false, "NAME");
+        public final static Property Sign = new Property(5, String.class, "sign", false, "SIGN");
+        public final static Property Sex = new Property(6, int.class, "sex", false, "SEX");
+        public final static Property Phone = new Property(7, String.class, "phone", false, "PHONE");
+        public final static Property Head_img = new Property(8, String.class, "head_img", false, "HEAD_IMG");
+        public final static Property Current_address = new Property(9, String.class, "current_address", false, "CURRENT_ADDRESS");
     }
 
 
@@ -46,7 +52,13 @@ public class UserDao extends AbstractDao<User, Long> {
                 "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
                 "\"ACCOUNT\" TEXT NOT NULL ," + // 1: account
                 "\"PASS_WORD\" TEXT NOT NULL ," + // 2: pass_word
-                "\"IS_LOGIN\" INTEGER NOT NULL );"); // 3: is_login
+                "\"IS_LOGIN\" INTEGER NOT NULL ," + // 3: is_login
+                "\"NAME\" TEXT," + // 4: name
+                "\"SIGN\" TEXT," + // 5: sign
+                "\"SEX\" INTEGER NOT NULL ," + // 6: sex
+                "\"PHONE\" TEXT," + // 7: phone
+                "\"HEAD_IMG\" TEXT," + // 8: head_img
+                "\"CURRENT_ADDRESS\" TEXT);"); // 9: current_address
     }
 
     /** Drops the underlying database table. */
@@ -66,6 +78,32 @@ public class UserDao extends AbstractDao<User, Long> {
         stmt.bindString(2, entity.getAccount());
         stmt.bindString(3, entity.getPass_word());
         stmt.bindLong(4, entity.getIs_login());
+ 
+        String name = entity.getName();
+        if (name != null) {
+            stmt.bindString(5, name);
+        }
+ 
+        String sign = entity.getSign();
+        if (sign != null) {
+            stmt.bindString(6, sign);
+        }
+        stmt.bindLong(7, entity.getSex());
+ 
+        String phone = entity.getPhone();
+        if (phone != null) {
+            stmt.bindString(8, phone);
+        }
+ 
+        String head_img = entity.getHead_img();
+        if (head_img != null) {
+            stmt.bindString(9, head_img);
+        }
+ 
+        String current_address = entity.getCurrent_address();
+        if (current_address != null) {
+            stmt.bindString(10, current_address);
+        }
     }
 
     @Override
@@ -79,6 +117,32 @@ public class UserDao extends AbstractDao<User, Long> {
         stmt.bindString(2, entity.getAccount());
         stmt.bindString(3, entity.getPass_word());
         stmt.bindLong(4, entity.getIs_login());
+ 
+        String name = entity.getName();
+        if (name != null) {
+            stmt.bindString(5, name);
+        }
+ 
+        String sign = entity.getSign();
+        if (sign != null) {
+            stmt.bindString(6, sign);
+        }
+        stmt.bindLong(7, entity.getSex());
+ 
+        String phone = entity.getPhone();
+        if (phone != null) {
+            stmt.bindString(8, phone);
+        }
+ 
+        String head_img = entity.getHead_img();
+        if (head_img != null) {
+            stmt.bindString(9, head_img);
+        }
+ 
+        String current_address = entity.getCurrent_address();
+        if (current_address != null) {
+            stmt.bindString(10, current_address);
+        }
     }
 
     @Override
@@ -92,7 +156,13 @@ public class UserDao extends AbstractDao<User, Long> {
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.getString(offset + 1), // account
             cursor.getString(offset + 2), // pass_word
-            cursor.getInt(offset + 3) // is_login
+            cursor.getInt(offset + 3), // is_login
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // name
+            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // sign
+            cursor.getInt(offset + 6), // sex
+            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // phone
+            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // head_img
+            cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9) // current_address
         );
         return entity;
     }
@@ -103,6 +173,12 @@ public class UserDao extends AbstractDao<User, Long> {
         entity.setAccount(cursor.getString(offset + 1));
         entity.setPass_word(cursor.getString(offset + 2));
         entity.setIs_login(cursor.getInt(offset + 3));
+        entity.setName(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setSign(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
+        entity.setSex(cursor.getInt(offset + 6));
+        entity.setPhone(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
+        entity.setHead_img(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
+        entity.setCurrent_address(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
      }
     
     @Override

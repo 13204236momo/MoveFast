@@ -84,7 +84,7 @@ public class RegisterFragment extends Fragment {
         }
 
         //插入数据库
-        user = new User(etAccount.getText().toString(),etPassword.getText().toString(),0);
+        user = new User(etAccount.getText().toString(),etPassword.getText().toString(),0,"",0,"","","");
         DbManager.getDaoSession(getActivity()).getUserDao().insert(user);
         Helper.HideKeyboard(tvFinish);
         ((LoginActivity)getActivity()).showFragment(1);

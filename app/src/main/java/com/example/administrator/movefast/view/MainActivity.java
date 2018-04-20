@@ -17,12 +17,10 @@ import com.example.administrator.movefast.entity.WayBill;
 import com.example.administrator.movefast.greendao.UserDao;
 import com.example.administrator.movefast.greendao.WayBillDao;
 import com.example.administrator.movefast.qrcode.activity.CaptureActivity;
-import com.example.administrator.movefast.utils.DataCenter;
 import com.example.administrator.movefast.utils.Helper;
 import com.example.administrator.movefast.utils.PermissionUtility;
 import com.example.administrator.movefast.view.fragment.MapActivity1;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -42,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private RadioButton rbMap;
 
     private ListView lvMain;
+    private User currentLoginUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +66,13 @@ public class MainActivity extends AppCompatActivity {
         Consumer<List<User>> consumer = new Consumer<List<User>>() {
             @Override
             public void accept(List<User> list) throws Exception {
-                initData(list.get(0));
+                if (list.size()>0){
+                    initData(list.get(0));
+                    currentLoginUser = list.get(0);
+                }else {
+                    Helper.showToast("登录失败，请重新登录！");
+                }
+
             }
         };
 
@@ -187,7 +192,11 @@ public class MainActivity extends AppCompatActivity {
         rbUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, UserActivity.class));
+                if (currentLoginUser != null){
+                    Intent intent = new Intent(MainActivity.this, MoreActivity.class);
+                    intent.putExtra("user",currentLoginUser);
+                    startActivity(intent);
+                }
             }
         });
     }

@@ -39,6 +39,11 @@ public class MapActivity1 extends AppCompatActivity {
             public void onLeftClick() {
                 finish();
             }
+
+            @Override
+            public void onRightClick() {
+
+            }
         });
     }
 

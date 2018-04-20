@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 
 import com.example.administrator.movefast.greendao.DaoMaster;
+import com.example.administrator.movefast.greendao.UserDao;
 import com.example.administrator.movefast.greendao.WayBillDao;
 
 import org.greenrobot.greendao.database.Database;
@@ -27,7 +28,7 @@ public class MyOpenHelper extends DaoMaster.OpenHelper {
     @Override
     public void onUpgrade(Database db, int oldVersion, int newVersion) {
         //操作数据库的更新 有几个表升级都可以传入到下面
-        MigrationHelper.getInstance().migrate(db,WayBillDao.class);
+        MigrationHelper.getInstance().migrate(db,WayBillDao.class, UserDao.class);
     }
 
 }
