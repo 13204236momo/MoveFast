@@ -86,11 +86,12 @@ public class User implements Parcelable {
     }
 
     public User( @NotNull String account, @NotNull String pass_word,@NotNull int is_login,
-                 String name, int sex, String phone, String head_img, String current_address) {
+                 String name,String sign, int sex, String phone, String head_img, String current_address) {
         this.account = account;
         this.pass_word = pass_word;
         this.is_login = is_login;
         this.name = name;
+        this.sign = sign;
         this.sex = sex;
         this.phone = phone;
         this.head_img = head_img;

@@ -11,9 +11,10 @@
     <color name="result_view">#b0000000</color>
     <color name="white_44">#44ffffff</color>
 
-    <color name="line_grey">#d8d8d8</color>
+    <color name="line_grey">#55d8d8d8</color>
 
-    <color name="space_grey">#eeeeee</color>
+    <color name="space_grey">#F2F6F9</color>
     <color name="transparent">#00000000</color>
     <color name="phone_bg">#f6f6f6</color>
+    <color name="search_bg">#44303F9F</color>
 </resources>

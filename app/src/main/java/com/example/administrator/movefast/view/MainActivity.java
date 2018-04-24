@@ -17,10 +17,16 @@ import com.example.administrator.movefast.entity.WayBill;
 import com.example.administrator.movefast.greendao.UserDao;
 import com.example.administrator.movefast.greendao.WayBillDao;
 import com.example.administrator.movefast.qrcode.activity.CaptureActivity;
+import com.example.administrator.movefast.utils.GlideImageLoader;
 import com.example.administrator.movefast.utils.Helper;
 import com.example.administrator.movefast.utils.PermissionUtility;
 import com.example.administrator.movefast.view.fragment.MapActivity1;
+import com.example.administrator.movefast.widget.SearchView;
+import com.youth.banner.Banner;
+import com.youth.banner.BannerConfig;
+import com.youth.banner.Transformer;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -37,16 +43,19 @@ public class MainActivity extends AppCompatActivity {
     private RadioButton rbSaoQr;
     private RadioButton rbHistory;
     private RadioButton rbUser;
-    private RadioButton rbMap;
-
+    private Banner mBanner;
     private ListView lvMain;
     private User currentLoginUser;
+
+    //轮播图内容
+    private List<String> imageTitle;
+    private List<String> imageArray;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //getSupportActionBar().hide();
+       // getSupportActionBar().hide();
 
         initView();
         getLoginUser();
@@ -136,7 +145,42 @@ public class MainActivity extends AppCompatActivity {
         lvMain = findViewById(R.id.main_list);
         lvMain.addHeaderView(getHeader());
 
+        initBanner();
 
+    }
+
+    private void initBanner() {
+        //设置图片加载集合
+        imageArray=new ArrayList<>();
+
+        imageArray.add("http://img3.imgtn.bdimg.com/it/u=2758743658,581437775&fm=15&gp=0.jpg");
+        imageArray.add("http://img3.imgtn.bdimg.com/it/u=2105877023,3759180926&fm=15&gp=0.jpg");
+        imageArray.add("http://img2.imgtn.bdimg.com/it/u=1876814088,3589919070&fm=15&gp=0.jpg");
+
+
+        //设置图片标题集合
+        imageTitle=new ArrayList<>();
+        imageTitle.add("aaaaaaaaa");
+        imageTitle.add("bbbbbbbbb");
+        imageTitle.add("ccccccccc");
+
+        mBanner = (Banner) findViewById(R.id.banner);
+        //设置banner样式
+        mBanner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR_TITLE_INSIDE);
+        //设置图片加载器
+        mBanner.setImageLoader(new GlideImageLoader());
+        //设置图片集合
+        mBanner.setImages(imageArray);
+        //设置banner动画效果
+        mBanner.setBannerAnimation(Transformer.RotateDown);
+        //设置标题集合（当banner样式有显示title时）
+        mBanner.setBannerTitles(imageTitle);
+        //设置轮播时间
+        mBanner.setDelayTime(1500);
+        //设置指示器位置（当banner模式中有指示器时）
+        mBanner.setIndicatorGravity(BannerConfig.CENTER);
+        //banner设置方法全部调用完毕时最后调用
+        mBanner.start();
     }
 
     private void initEvent() {
@@ -171,24 +215,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        rbMap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PermissionUtility.getRxPermission(MainActivity.this)
-                        .request(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.READ_PHONE_STATE) //申请定位权限
-                        .subscribe(new Consumer<Boolean>() {
-                            @Override
-                            public void accept(Boolean granted) throws Exception {
-                                if (granted) {
-                                    startActivity(new Intent(MainActivity.this, MapActivity1.class));
-                                } else {
-                                    Helper.showToast("请开启定位权限");
-                                }
-                            }
-                        });
-            }
-        });
-
         rbUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -199,6 +225,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+
     }
 
     @Override
@@ -226,9 +254,23 @@ public class MainActivity extends AppCompatActivity {
         rbCreateQr = header.findViewById(R.id.rb_1);
         rbSaoQr = header.findViewById(R.id.rb_2);
         rbHistory = header.findViewById(R.id.rb_3);
-        rbMap = header.findViewById(R.id.rb_4);
-        rbUser = header.findViewById(R.id.rb_8);
+        rbUser = header.findViewById(R.id.rb_4);
+        mBanner = header.findViewById(R.id.banner);
+
         return header;
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        //开始轮播
+        mBanner.startAutoPlay();
+    }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        //结束轮播
+        mBanner.stopAutoPlay();
     }
 
     @Override

@@ -1,27 +1,14 @@
 package com.example.administrator.movefast.view;
 
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.example.administrator.movefast.R;
 import com.example.administrator.movefast.db.DbManager;
 import com.example.administrator.movefast.entity.User;
-import com.example.administrator.movefast.greendao.UserDao;
 import com.example.administrator.movefast.utils.Helper;
 import com.example.administrator.movefast.widget.TopBar;
-
-import java.util.List;
-
-import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
 
 public class SettingActivity extends AppCompatActivity {
 

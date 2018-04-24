@@ -4,110 +4,106 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <RadioGroup
-    android:layout_width="match_parent"
-    android:layout_height="80dp"
-    android:orientation="horizontal"
-    android:gravity="center_vertical"
-    android:paddingTop="10dp"
-    android:background="#82a6f5">
-    <RadioButton
-        android:id="@+id/rb_1"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:button="@null"
-        android:gravity="center"
-        android:drawableTop="@drawable/erweima"
-        android:text="生成二维码"
-        android:layout_weight="1"
-        android:textColor="#e2e2e2"/>
-    <RadioButton
-        android:id="@+id/rb_2"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:button="@null"
-        android:gravity="center"
-        android:drawableTop="@drawable/sao"
-        android:text="扫一扫"
-        android:layout_weight="1"
-        android:textColor="#e2e2e2"/>
-    <RadioButton
-        android:id="@+id/rb_3"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:button="@null"
-        android:gravity="center"
-        android:drawableTop="@drawable/deal"
-        android:text="历史订单"
-        android:layout_weight="1"
-        android:textColor="#e2e2e2"/>
-    <RadioButton
-        android:id="@+id/rb_4"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:button="@null"
-        android:gravity="center"
-        android:drawableTop="@drawable/erweima"
-        android:text="生成二维码"
-        android:layout_weight="1"
-        android:textColor="#e2e2e2"/>
-</RadioGroup>
+    <com.youth.banner.Banner
+        android:id="@+id/banner"
+        android:layout_width="match_parent"
+        android:layout_height="180dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/space_grey" />
+
     <RadioGroup
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:orientation="horizontal"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
         android:gravity="center_vertical"
-        android:paddingTop="10dp"
-        android:background="#82a6f5">
+        android:orientation="horizontal"
+        android:background="@color/space_grey">
+
         <RadioButton
-            android:id="@+id/rb_5"
+            android:id="@+id/rb_1"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:button="@null"
-            android:gravity="center"
-            android:drawableTop="@drawable/erweima"
-            android:text="生成二维码"
             android:layout_weight="1"
-            android:textColor="#e2e2e2"/>
+            android:paddingTop="10dp"
+            android:button="@null"
+            android:drawableTop="@drawable/erweima"
+            android:gravity="center"
+            android:text="生成二维码"
+            android:textColor="@color/colorPrimary"
+            android:background="@android:color/white"/>
+
+        <View
+            android:layout_width="5dp"
+            android:layout_height="match_parent"
+            android:background="@color/space_grey" />
+
+
         <RadioButton
-            android:id="@+id/rb_6"
+            android:id="@+id/rb_2"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingTop="10dp"
             android:button="@null"
-            android:gravity="center"
             android:drawableTop="@drawable/sao"
+            android:gravity="center"
             android:text="扫一扫"
-            android:layout_weight="1"
-            android:textColor="#e2e2e2"/>
+            android:textColor="@color/colorPrimary"
+            android:background="@android:color/white"/>
+
+        <View
+            android:layout_width="5dp"
+            android:layout_height="match_parent"
+            android:background="@color/space_grey" />
+
         <RadioButton
-            android:id="@+id/rb_7"
+            android:id="@+id/rb_3"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:button="@null"
-            android:gravity="center"
-            android:drawableTop="@drawable/erweima"
-            android:text="生成二维码"
             android:layout_weight="1"
-            android:textColor="#e2e2e2"/>
+            android:paddingTop="10dp"
+            android:button="@null"
+            android:drawableTop="@drawable/deal"
+            android:gravity="center"
+            android:text="历史订单"
+            android:textColor="@color/colorPrimary"
+            android:background="@android:color/white"/>
+        <View
+            android:layout_width="5dp"
+            android:layout_height="match_parent"
+            android:background="@color/space_grey" />
+
         <RadioButton
-            android:id="@+id/rb_8"
+            android:id="@+id/rb_4"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingTop="10dp"
             android:button="@null"
-            android:gravity="center"
             android:drawableTop="@drawable/person"
+            android:gravity="center"
             android:text="个人中心"
-            android:layout_weight="1"
-            android:textColor="#e2e2e2"/>
+            android:textColor="@color/colorPrimary"
+            android:background="@android:color/white"/>
     </RadioGroup>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/space_grey" />
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="40dp"
         android:gravity="center_vertical"
         android:paddingLeft="15dp"
-        android:text="近期订单"/>
-
+        android:text="近期订单"
+        android:background="@color/space_grey"
+        android:textColor="@color/colorPrimary" />
 
 
 </LinearLayout>

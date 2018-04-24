@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_login">
+
+    <com.example.administrator.movefast.widget.TopBar
+        android:id="@+id/topbar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+
+    <ImageView
+        android:id="@+id/iv_introduce_bg"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/about_us_bg" />
+
+    <TextView
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="65dp"
+        android:text="      这是一款面向快递派送员的App，我们提供生成订单，订单查询，二维码扫描，配送路线规划等功能。提高派送效率。   "
+        android:textColor="@color/colorPrimary"
+        android:textSize="14dp" />
+
+
+    <ImageView
+        android:id="@+id/iv_tel"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="30dp"
+        android:background="@drawable/tel"
+        android:layout_below="@+id/iv_introduce_bg"/>
+
+    <TextView
+        android:layout_width="200dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="70dp"
+        android:text="137xxxxxxx"
+        android:gravity="center"
+        android:textColor="@android:color/white"
+        android:layout_below="@+id/iv_introduce_bg"
+        android:background="@drawable/et_login_bg" />
+
+    <ImageView
+        android:id="@+id/iv_email"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="30dp"
+        android:background="@drawable/email"
+        android:layout_below="@+id/iv_tel"/>
+
+    <TextView
+        android:layout_width="200dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="70dp"
+        android:text="13703196236@163.com"
+        android:gravity="center"
+        android:textColor="@android:color/white"
+        android:layout_below="@+id/iv_tel"
+        android:background="@drawable/et_login_bg" />
+
+</RelativeLayout>

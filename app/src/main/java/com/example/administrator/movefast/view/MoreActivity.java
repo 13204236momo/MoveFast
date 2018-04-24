@@ -1,6 +1,11 @@
 package com.example.administrator.movefast.view;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +17,7 @@ import com.example.administrator.movefast.R;
 import com.example.administrator.movefast.db.DbManager;
 import com.example.administrator.movefast.entity.User;
 import com.example.administrator.movefast.event.UpDateUserEvent;
+import com.example.administrator.movefast.event.base.EventCenter;
 import com.example.administrator.movefast.greendao.UserDao;
 import com.example.administrator.movefast.utils.Helper;
 import com.example.administrator.movefast.widget.TopBar;
@@ -32,13 +38,17 @@ public class MoreActivity extends AppCompatActivity {
     
     private TopBar top;
     private RelativeLayout rlSetting;
+    private RelativeLayout rlPassWord;
     private RelativeLayout rlUser;
+    private RelativeLayout rlAbout;
     private TextView tvQuit;
     private TextView tvName;
     private ImageView ivSex;
+    private ImageView ivHead;
 
     private User currentLoginUser;
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,21 +63,32 @@ public class MoreActivity extends AppCompatActivity {
 
 
     private void initData(){
+        EventCenter.register(this);
         currentLoginUser = getIntent().getParcelableExtra("user");
     }
 
     private void initView() {
         top = findViewById(R.id.top);
         top.setTitle("更多");
+        ivHead = findViewById(R.id.iv_head);
         rlSetting = findViewById(R.id.rl_setting);
+        rlPassWord = findViewById(R.id.rl_pw);
         rlUser = findViewById(R.id.rl_user);
+        rlAbout = findViewById(R.id.rl_about_us);
         tvQuit = findViewById(R.id.tv_quit);
         tvName = findViewById(R.id.tv_account);
         ivSex = findViewById(R.id.iv_sex);
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     private void setData(){
+
+        if (!currentLoginUser.getHead_img().equals("")){
+            Bitmap bm = BitmapFactory.decodeFile(currentLoginUser.getHead_img());
+            ivHead.setBackground(new BitmapDrawable(bm));
+        }
+
         if (!currentLoginUser.getName().toString().equals("")){
             tvName.setText(currentLoginUser.getName());
         }
@@ -98,11 +119,11 @@ public class MoreActivity extends AppCompatActivity {
         rlSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (currentLoginUser != null){
-                    Intent intent = new Intent(MoreActivity.this, MoreActivity.class);
-                    intent.putExtra("user",currentLoginUser);
-                    startActivity(intent);
-                }
+//                if (currentLoginUser != null){
+//                    Intent intent = new Intent(MoreActivity.this, MoreActivity.class);
+//                    intent.putExtra("user",currentLoginUser);
+//                    startActivity(intent);
+//                }
             }
         });
 
@@ -121,6 +142,22 @@ public class MoreActivity extends AppCompatActivity {
                     intent.putExtra("user",currentLoginUser);
                     startActivity(intent);
                 }
+            }
+        });
+
+        rlAbout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MoreActivity.this,AboutUsActivity.class));
+            }
+        });
+
+        rlPassWord.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MoreActivity.this, SettingActivity.class);
+                intent.putExtra("user",currentLoginUser);
+                startActivity(intent);
             }
         });
     }
@@ -159,6 +196,7 @@ public class MoreActivity extends AppCompatActivity {
                 .subscribe(consumer);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void upDate(UpDateUserEvent event){
         currentLoginUser = event.getUser();
