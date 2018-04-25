@@ -3,6 +3,7 @@ package com.example.administrator.movefast.view;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -89,7 +90,12 @@ public class CreateQRActivity extends AppCompatActivity {
             Toast.makeText(this, "手机号格式错误！", Toast.LENGTH_SHORT).show();
             return;
         }
-        qrBitmap = QRCodeUtil.createQRCode("收件人姓名：" + etName.getText().toString() + "\n收件人地址：" + etAddress.getText().toString() + "\n收件人电话：" + etPhone.getText().toString() + "\n运费：" + etPrice.getText().toString() + "\n运单号：" + tvNum.getText().toString());
+
+        String mes = "收件人姓名：" + etName.getText().toString() + "\n收件人地址：" + etAddress.getText().toString() + "\n收件人电话：" + etPhone.getText().toString() + "\n运费：" + etPrice.getText().toString() + "\n运单号：" + tvNum.getText().toString();
+        mes = Base64.encodeToString(mes.getBytes(), Base64.DEFAULT);   //base64转码
+
+        ivQr.setImageBitmap(qrBitmap);
+        qrBitmap = QRCodeUtil.createQRCode(mes);
         ivQr.setImageBitmap(qrBitmap);
 
         //插入数据库

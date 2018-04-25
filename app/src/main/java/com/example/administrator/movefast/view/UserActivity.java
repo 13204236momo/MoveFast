@@ -303,6 +303,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
         EventCenter.unRegister(this);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void upDate(UpDateUserEvent event) {
         currentLoginUser = event.getUser();

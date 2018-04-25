@@ -45,22 +45,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.MainActivity" />
-        <activity android:name=".view.CreateQRActivity" />
-        <activity android:name=".qrcode.activity.CaptureActivity" />
-        <activity android:name=".view.HistoryActivity" />
-        <activity android:name=".view.LoginActivity" />
-        <activity android:name=".view.MoreActivity" />
-        <activity android:name=".view.SettingActivity" />
-        <activity android:name=".view.MapActivity" />
+        <activity android:name=".view.MainActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".view.CreateQRActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".qrcode.activity.CaptureActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".view.HistoryActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".view.LoginActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".view.MoreActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".view.SettingActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".view.MapActivity" android:screenOrientation="portrait"/>
         <activity android:name=".view.fragment.MapActivity1" />
-        <activity android:name=".view.RideRouteDetailActivity" />
+        <activity android:name=".view.RideRouteDetailActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".view.UserActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".view.ChangeUserDetailActivity" android:screenOrientation="portrait"/>
+
 
         <!-- //定位服务 -->
         <service android:name="com.amap.api.location.APSService" />
-
-        <activity android:name=".view.UserActivity" />
-        <activity android:name=".view.ChangeUserDetailActivity" />
 
         <!-- 7.0 以上目录限制被访问，在此进行适配 -->
         <provider

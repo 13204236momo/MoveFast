@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -22,6 +23,7 @@ import com.example.administrator.movefast.utils.Helper;
 import com.example.administrator.movefast.utils.PermissionUtility;
 import com.example.administrator.movefast.view.fragment.MapActivity1;
 import com.example.administrator.movefast.widget.SearchView;
+import com.example.administrator.movefast.widget.ToastDialog;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
@@ -55,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-       // getSupportActionBar().hide();
+        // getSupportActionBar().hide();
 
         initView();
         getLoginUser();
@@ -75,10 +77,10 @@ public class MainActivity extends AppCompatActivity {
         Consumer<List<User>> consumer = new Consumer<List<User>>() {
             @Override
             public void accept(List<User> list) throws Exception {
-                if (list.size()>0){
+                if (list.size() > 0) {
                     initData(list.get(0));
                     currentLoginUser = list.get(0);
-                }else {
+                } else {
                     Helper.showToast("登录失败，请重新登录！");
                 }
 
@@ -122,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
                                     public void accept(Boolean granted) throws Exception {
                                         if (granted) {
                                             Intent intent = new Intent(MainActivity.this, MapActivity.class);
-                                           // intent.putExtra("destination", list.get(position - 1).getAddress());
+                                            // intent.putExtra("destination", list.get(position - 1).getAddress());
                                             intent.putExtra("data", list.get(position - 1));
                                             startActivity(intent);
                                         } else {
@@ -151,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initBanner() {
         //设置图片加载集合
-        imageArray=new ArrayList<>();
+        imageArray = new ArrayList<>();
 
         imageArray.add("http://img3.imgtn.bdimg.com/it/u=2758743658,581437775&fm=15&gp=0.jpg");
         imageArray.add("http://img3.imgtn.bdimg.com/it/u=2105877023,3759180926&fm=15&gp=0.jpg");
@@ -159,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         //设置图片标题集合
-        imageTitle=new ArrayList<>();
+        imageTitle = new ArrayList<>();
         imageTitle.add("aaaaaaaaa");
         imageTitle.add("bbbbbbbbb");
         imageTitle.add("ccccccccc");
@@ -218,9 +220,9 @@ public class MainActivity extends AppCompatActivity {
         rbUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (currentLoginUser != null){
+                if (currentLoginUser != null) {
                     Intent intent = new Intent(MainActivity.this, MoreActivity.class);
-                    intent.putExtra("user",currentLoginUser);
+                    intent.putExtra("user", currentLoginUser);
                     startActivity(intent);
                 }
             }
@@ -235,8 +237,12 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == 99) {  //传回扫描二维码中的信息
             try {
                 String s = data.getExtras().getString("result");
-                String[] arr = s.split(":");
-                Helper.showToast(s);
+                s = new String(Base64.decode(s, Base64.DEFAULT));  //base64 解转码
+                ToastDialog dialog = new ToastDialog(this);
+                dialog.setMessage(s);
+                dialog.setCanceledOnTouchOutside(true);
+                dialog.show();
+
             } catch (Exception e) {
                 Helper.showToast("获取物流信息失败!");
             }
@@ -266,6 +272,7 @@ public class MainActivity extends AppCompatActivity {
         //开始轮播
         mBanner.startAutoPlay();
     }
+
     @Override
     protected void onStop() {
         super.onStop();
