@@ -20,7 +20,6 @@ import com.example.administrator.movefast.greendao.UserDao;
 import com.example.administrator.movefast.greendao.WayBillDao;
 import com.example.administrator.movefast.utils.Helper;
 import com.example.administrator.movefast.utils.PermissionUtility;
-import com.example.administrator.movefast.widget.SearchView;
 import com.example.administrator.movefast.widget.TopBar;
 
 import java.util.ArrayList;

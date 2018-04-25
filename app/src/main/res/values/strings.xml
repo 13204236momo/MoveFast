@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MoveFast</string>
+    <string name="app_name">物流派送</string>
 
     <string name="introduce">      这是一款面向快递派送员的App，我们提供生成订单，订单查询，二维码扫描，配送路线规划等功能。提高派送效率。</string>
 </resources>
