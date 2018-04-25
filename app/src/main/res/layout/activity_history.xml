@@ -11,6 +11,60 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"/>
 
+  <RelativeLayout
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center"
+      android:layout_margin="15dp">
+      <EditText
+          android:id="@+id/et_search"
+          android:layout_width="260dp"
+          android:layout_height="40dp" />
+      <TextView
+          android:id="@+id/tv_search"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="搜索"
+          android:layout_marginLeft="10dp"
+          android:textSize="18dp"
+          android:gravity="center"
+          android:layout_toRightOf="@+id/et_search"/>
+  </RelativeLayout>
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
+        <RadioButton
+            android:id="@+id/rb_1"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:text="收件人"/>
+        <RadioButton
+            android:id="@+id/rb_2"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:text="运单号"/>
+
+        <RadioButton
+            android:id="@+id/rb_3"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:text="手机号"/>
+
+        <RadioButton
+            android:id="@+id/rb_4"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:text="日期"/>
+    </RadioGroup>
+
     <ListView
         android:id="@+id/lv_history"
         android:layout_width="match_parent"

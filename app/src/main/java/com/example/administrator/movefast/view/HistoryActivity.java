@@ -6,7 +6,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.TextView;
 
 import com.example.administrator.movefast.R;
 import com.example.administrator.movefast.adapter.MainAdapter;
@@ -17,8 +20,10 @@ import com.example.administrator.movefast.greendao.UserDao;
 import com.example.administrator.movefast.greendao.WayBillDao;
 import com.example.administrator.movefast.utils.Helper;
 import com.example.administrator.movefast.utils.PermissionUtility;
+import com.example.administrator.movefast.widget.SearchView;
 import com.example.administrator.movefast.widget.TopBar;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -31,8 +36,17 @@ import io.reactivex.schedulers.Schedulers;
 public class HistoryActivity extends AppCompatActivity {
     private ListView lvHistory;
     private TopBar topBar;
+    private EditText etSearch;
+    private TextView tvSearch;
+    private RadioButton rb1;
+    private RadioButton rb2;
+    private RadioButton rb3;
+    private RadioButton rb4;
 
     private List<WayBill> data;
+    private User user;
+
+    private int searchType = 0;  //查询方式（无条件:0、按收件人：1、按运单号：2、按手机号：3）
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +72,8 @@ public class HistoryActivity extends AppCompatActivity {
         Consumer<List<User>> consumer = new Consumer<List<User>>() {
             @Override
             public void accept(List<User> list) throws Exception {
-                initData(list.get(0));
+                user = list.get(0);
+                initData(user);
             }
         };
 
@@ -73,12 +88,48 @@ public class HistoryActivity extends AppCompatActivity {
             @Override
             public void subscribe(ObservableEmitter<List<WayBill>> e) throws Exception {
                 // 进行数据库查询  （查询数据库是费时操作，放到其他线程）
-                List<WayBill> list = DbManager.getDaoSession(HistoryActivity.this).getWayBillDao().queryBuilder()
-                        // .where(WayBillDao.Properties.Account.eq("123"))
-                        .where(WayBillDao.Properties.Account.eq(user.getAccount()))
-                        .orderDesc(WayBillDao.Properties.Id)
-                        .build()
-                        .list();
+                List<WayBill> list = new ArrayList<>();
+                switch (searchType){
+                    case 0:
+                        list = DbManager.getDaoSession(HistoryActivity.this).getWayBillDao().queryBuilder()
+                                .where(WayBillDao.Properties.Account.eq(user.getAccount()))
+                                .orderDesc(WayBillDao.Properties.Id)
+                                .build()
+                                .list();
+                        break;
+                    case 1:
+                        String na = etSearch.getText().toString().trim();
+                        list = DbManager.getDaoSession(HistoryActivity.this).getWayBillDao().queryBuilder()
+                                .where(WayBillDao.Properties.Account.eq(user.getAccount()),WayBillDao.Properties.Name.eq(na))
+                                .orderDesc(WayBillDao.Properties.Id)
+                                .build()
+                                .list();
+                        break;
+                    case 2:
+                        list = DbManager.getDaoSession(HistoryActivity.this).getWayBillDao().queryBuilder()
+                                .where(WayBillDao.Properties.Account.eq(user.getAccount()),WayBillDao.Properties.Track_num.eq(etSearch.getText().toString().trim()))
+                                .orderDesc(WayBillDao.Properties.Id)
+                                .build()
+                                .list();
+                        break;
+                    case 3:
+
+                        list = DbManager.getDaoSession(HistoryActivity.this).getWayBillDao().queryBuilder()
+                                .where(WayBillDao.Properties.Account.eq(user.getAccount()),WayBillDao.Properties.Phone.eq(etSearch.getText().toString().trim()))
+                                .orderDesc(WayBillDao.Properties.Id)
+                                .build()
+                                .list();
+                        break;
+                    case 4:
+                        list = DbManager.getDaoSession(HistoryActivity.this).getWayBillDao().queryBuilder()
+                                .where(WayBillDao.Properties.Account.eq(user.getAccount()),WayBillDao.Properties.Create_time.like(etSearch.getText().toString().trim()+"%"))
+                                .orderDesc(WayBillDao.Properties.Id)
+                                .build()
+                                .list();
+                        break;
+
+                }
+
                 e.onNext(list);
             }
         });
@@ -100,6 +151,12 @@ public class HistoryActivity extends AppCompatActivity {
     private void initView() {
         lvHistory = findViewById(R.id.lv_history);
         topBar = findViewById(R.id.topbar);
+        etSearch = findViewById(R.id.et_search);
+        tvSearch = findViewById(R.id.tv_search);
+        rb1 = findViewById(R.id.rb_1);
+        rb2 = findViewById(R.id.rb_2);
+        rb3 = findViewById(R.id.rb_3);
+        rb4 = findViewById(R.id.rb_4);
         topBar.setTitle("历史定单");
     }
 
@@ -138,6 +195,25 @@ public class HistoryActivity extends AppCompatActivity {
                                 });
                     }
                 });
+            }
+        });
+
+
+        tvSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (rb1.isChecked()){
+                    searchType = 1;
+                }else if (rb2.isChecked()){
+                    searchType = 2;
+                }else if (rb3.isChecked()){
+                    searchType = 3;
+                }else if (rb4.isChecked()){
+                    searchType = 4;
+                }else {
+                    searchType = 0;
+                }
+                initData(user);
             }
         });
     }
