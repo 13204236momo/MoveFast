@@ -191,9 +191,8 @@ public class MapController implements LocationSource, AMapLocationListener, Rout
                 }
                 if (isFirst) {
                     isFirst = false;
-                    setFormantToMarker(aMapLocation);
-                    searchRouteResult(ROUTE_TYPE_RIDE, RouteSearch.RidingDefault);
-                    aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(AMapUtil.convertToLatLng(latLnCurrent), 14));
+                    latLngStart = new LatLonPoint(aMapLocation.getLatitude(), aMapLocation.getLongitude());
+                   drawLine();
                 }
             } else {
                 String errText = "定位失败," + aMapLocation.getErrorCode() + ": " + aMapLocation.getErrorInfo();
@@ -205,17 +204,20 @@ public class MapController implements LocationSource, AMapLocationListener, Rout
     /**
      * 设置起点，终点
      *
-     * @param aMapLocation
      */
-    private void setFormantToMarker(AMapLocation aMapLocation) {
-        latLngStart = new LatLonPoint(aMapLocation.getLatitude(), aMapLocation.getLongitude());
-
+    private void setFormantToMarker() {
         aMap.addMarker(new MarkerOptions()
                 .position(AMapUtil.convertToLatLng(latLngStart))
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.start)));
         aMap.addMarker(new MarkerOptions()
                 .position(AMapUtil.convertToLatLng(latLngEnd))
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.end)));
+    }
+
+    private void drawLine(){
+        setFormantToMarker();
+        searchRouteResult(ROUTE_TYPE_RIDE, RouteSearch.RidingDefault);
+        aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(AMapUtil.convertToLatLng(latLnCurrent), 14));
     }
 
     /**
@@ -315,6 +317,7 @@ public class MapController implements LocationSource, AMapLocationListener, Rout
         if (reCoed == 1000) {
             GeocodeAddress address = geocodeResult.getGeocodeAddressList().get(0);
             latLngEnd = address.getLatLonPoint();
+            drawLine();
         } else {
             Helper.showToast("定位不到收件地址！");
         }
